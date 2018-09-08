@@ -13,7 +13,7 @@ namespace UselessBot.Common.Jobs
         public AppJobRegistry()
         {
             Schedule<MemeJob>().ToRunNow().AndEvery(5).Minutes();
-            Schedule<HmmJob>().ToRunEvery(30).Minutes();
+            Schedule<HmmJob>().ToRunEvery(30).Minutes().Between(3, 0, 6, 0);
             Schedule<BotStatusJob>().ToRunNow().AndEvery(2).Minutes();
         }
 

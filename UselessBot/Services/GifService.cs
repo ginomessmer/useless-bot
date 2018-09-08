@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using UselessBot.Common.Extensions;
 using UselessBot.Data;
 using UselessBot.Database;
 
@@ -23,6 +25,15 @@ namespace UselessBot.Services
             await appDbContext.SaveChangesAsync();
 
             return gif.Entity;
+        }
+
+        public async Task<Gif> GetRandomGifAsync()
+        {
+            return await Task<Gif>.Run(() =>
+            {
+                var gif = appDbContext.Gifs.Random();
+                return gif;
+            });
         }
     }
 }

@@ -10,5 +10,6 @@ namespace UselessBot.Services
     public interface IGifService
     {
         Task<Gif> AddGifAsync(string url, string key, IUser user);
+        Task<Gif> GetRandomGifAsync();
     }
 }

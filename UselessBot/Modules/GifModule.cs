@@ -16,7 +16,7 @@ namespace UselessBot.Modules
             this.service = service;
         }
 
-        [Command("gif add")]
+        [Command("gif add"), Summary("Adds a new GIF to the bot database")]
         public async Task AddGif(string url, [Remainder] string key)
         {
             await service.AddGifAsync(url, key, Context.Message.Author);

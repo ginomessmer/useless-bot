@@ -17,7 +17,7 @@ namespace UselessBot.Modules
             this.redditService = redditService;
         }
 
-        [Command("meme")]
+        [Command("meme"), Summary("This sends a spicy dank meme for you")]
         [Alias("m")]
         public async Task RandomMeme()
         {

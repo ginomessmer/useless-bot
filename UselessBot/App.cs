@@ -24,26 +24,27 @@ namespace UselessBot
 {
     public class App
     {
-        private DiscordSocketClient client;
-        private CommandService commands;
+        private DiscordSocketClient discordClient;
+        public static CommandService CommandService;
+
+        private IConfigurationRoot configuration;
 
         private ServiceCollection serviceCollection;
         public static IServiceProvider Services;
 
-        private IConfigurationRoot configuration;
 
         public async Task RunAsync()
         {
-            client = new DiscordSocketClient();
-            commands = new CommandService();
+            discordClient = new DiscordSocketClient();
+            CommandService = new CommandService();
 
             serviceCollection = new ServiceCollection();
             this.InitializeServices(serviceCollection);
 
             await this.InstallCommands();
 
-            await client.LoginAsync(TokenType.Bot, configuration["DiscordBotToken"]);
-            await client.StartAsync();
+            await discordClient.LoginAsync(TokenType.Bot, configuration["DiscordBotToken"]);
+            await discordClient.StartAsync();
 
             await this.InitializeJobs();
 
@@ -84,7 +85,7 @@ namespace UselessBot
 
 
             // Discord
-            serviceCollection.AddSingleton(client);
+            serviceCollection.AddSingleton(discordClient);
             Console.WriteLine("Added Discord client");
 
 
@@ -126,9 +127,9 @@ namespace UselessBot
         private async Task InstallCommands()
         {
             Console.WriteLine("Adding commands...");
-            client.MessageReceived += HandleMessageCommands;
-            await commands.AddModulesAsync(Assembly.GetEntryAssembly());
-            Console.WriteLine("Commands were added", Color.Green);
+            discordClient.MessageReceived += HandleMessageCommands;
+            await CommandService.AddModulesAsync(Assembly.GetEntryAssembly());
+            Console.WriteLine("Commands were successfully added", Color.Green);
         }
 
         public async Task HandleMessageCommands(SocketMessage arg)
@@ -138,10 +139,10 @@ namespace UselessBot
 
             int argPos = 0;
 
-            if(!(message.HasCharPrefix(configuration["Prefix"].ToCharArray()[0], ref argPos)) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) return;
+            if(!(message.HasCharPrefix(configuration["Prefix"].ToCharArray()[0], ref argPos)) || message.HasMentionPrefix(discordClient.CurrentUser, ref argPos)) return;
 
-            var context = new CommandContext(client, message);
-            var result = await commands.ExecuteAsync(context, argPos, Services);
+            var context = new CommandContext(discordClient, message);
+            var result = await CommandService.ExecuteAsync(context, argPos, Services);
 
             if (!result.IsSuccess)
             {

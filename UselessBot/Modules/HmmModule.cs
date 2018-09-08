@@ -25,7 +25,7 @@ namespace UselessBot.Modules
             this.configuration = configuration;
         }
 
-        [Command("hmm")]
+        [Command("hmm"), Summary("Hmm...")]
         public async Task GetRandomHmm()
         {
             if(LastCommandAt.AddSeconds(Convert.ToDouble(configuration["Modules:Hmm:CooldownPeriod"])) < DateTime.Now)

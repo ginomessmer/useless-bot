@@ -20,7 +20,7 @@ namespace UselessBot.Modules
             this.configuration = configuration;
         }
 
-        [Command("config reload")]
+        [Command("config reload"), Summary("Reloads the application config at runtime")]
         public async Task ChangeNickname()
         {
             if (Context.Message.Author.Id == configuration.GetSection("OwnerId").Get<ulong>())
@@ -30,7 +30,7 @@ namespace UselessBot.Modules
             }
         }
 
-        [Command("die")]
+        [Command("die"), Summary("Like this bot to instantly die")]
         public async Task Shutdown()
         {
             if(Context.Message.Author.Id == configuration.GetSection("OwnerId").Get<ulong>())
