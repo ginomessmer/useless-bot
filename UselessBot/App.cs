@@ -40,9 +40,16 @@ namespace UselessBot
             await client.LoginAsync(TokenType.Bot, configuration["DiscordBotToken"]);
             await client.StartAsync();
 
+            await this.InitializeJobs();
+
             Console.WriteAscii("Useless Bot");
 
             await Task.Delay(-1);
+        }
+
+        private Task InitializeJobs()
+        {
+            return Task.CompletedTask;
         }
 
         private void InitializeServices(ServiceCollection serviceCollection)
@@ -87,6 +94,7 @@ namespace UselessBot
             // App services
             serviceCollection.AddSingleton<IQuotesService, QuotesService>();
             serviceCollection.AddSingleton<IGifService, GifService>();
+            serviceCollection.AddSingleton<IRedditService, RedditService>();
             Console.WriteLine("Added app services");
 
 

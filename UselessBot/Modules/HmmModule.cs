@@ -7,25 +7,39 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using UselessBot.Common.Extensions;
+using UselessBot.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace UselessBot.Modules
 {
     public class HmmModule : ModuleBase
     {
-        private readonly Reddit reddit;
+        private readonly IRedditService redditService;
+        private readonly IConfigurationRoot configuration;
 
-        public HmmModule(Reddit reddit)
+        private static DateTime LastCommandAt;
+
+        public HmmModule(IRedditService redditService, IConfigurationRoot configuration)
         {
-            this.reddit = reddit;
+            this.redditService = redditService;
+            this.configuration = configuration;
         }
 
         [Command("hmm")]
         public async Task GetRandomHmm()
         {
-            var message = await Context.Channel.SendMessageAsync(":thinking:");
-            var subreddit = await reddit.GetSubredditAsync("/r/hmmm");
-            var hmm = (await subreddit.GetTop(10).ToList()).Random();
-            await message.ModifyAsync(m => { m.Content = hmm.Url.ToString(); });
+            if(LastCommandAt.AddSeconds(Convert.ToDouble(configuration["Modules:Hmm:CooldownPeriod"])) < DateTime.Now)
+            {
+                var message = await Context.Channel.SendMessageAsync(":thinking:");
+                
+                var url = await redditService.GetLatestHmmContentAsync();
+                await message.ModifyAsync(m => { m.Content = url; });
+                LastCommandAt = DateTime.Now;
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync("Calm down :fire: You can't do another hmm just yet");
+            }
         }
     }
 }

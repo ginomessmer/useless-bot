@@ -2,5 +2,19 @@
   "Prefix": "+",
   "OwnerId": "",
   "DiscordBotToken": "",
-  "GiphyToken": ""
+  "GiphyToken": "",
+
+  "Reddit": {
+    "Username": "",
+    "Password": "",
+    "ClientId": "",
+    "ClientSecret": "",
+    "RedirectUrl": "https://www.reddit.com/prefs/apps"
+  },
+
+  "Modules": {
+    "Hmm": {
+      "CooldownPeriod": 20
+    }
+  }
 }
