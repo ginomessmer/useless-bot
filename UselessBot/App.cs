@@ -5,6 +5,7 @@ using GiphyDotNet.Manager;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RedditSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,6 +68,14 @@ namespace UselessBot
             // Discord
             serviceCollection.AddSingleton(client);
             Console.WriteLine("Added Discord client");
+
+
+            // Reddit
+            var redditWebAgent = new BotWebAgent(configuration["Reddit:Username"], configuration["Reddit:Password"],
+                configuration["Reddit:ClientId"], configuration["Reddit:ClientSecret"], configuration["Reddit:RedirectUri"]);
+            var redditClient = new Reddit(redditWebAgent);
+            serviceCollection.AddSingleton(redditClient);
+            Console.WriteLine("Added Reddit client");
 
 
             // Giphy

@@ -28,5 +28,12 @@ namespace UselessBot.Modules
 
             await Context.Channel.SendMessageAsync("Done :white_check_mark:");
         }
+
+        [Command("bot 👋")]
+        public async Task Shutdown()
+        {
+            await Context.Channel.SendMessageAsync("mkay thanks bye");
+            Environment.Exit(-1);
+        }
     }
 }
