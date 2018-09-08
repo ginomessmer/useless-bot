@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UselessBot.Database;
 
 namespace UselessBot
 {
@@ -50,6 +51,12 @@ namespace UselessBot
             serviceCollection.AddSingleton(configuration);
 
 
+            // Database
+            var botAppDbContext = new BotAppDbContext();
+            serviceCollection.AddSingleton(botAppDbContext);
+            botAppDbContext.Database.EnsureCreated();
+
+
             // Discord
             serviceCollection.AddSingleton(client);
 
@@ -76,7 +83,7 @@ namespace UselessBot
 
             int argPos = 0;
 
-            if(!(message.HasCharPrefix('+', ref argPos)) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) return;
+            if(!(message.HasCharPrefix(configuration["Prefix"].ToCharArray()[0], ref argPos)) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) return;
 
             var context = new CommandContext(client, message);
             var result = await commands.ExecuteAsync(context, argPos, services);

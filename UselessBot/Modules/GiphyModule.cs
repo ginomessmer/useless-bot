@@ -16,7 +16,7 @@ namespace UselessBot.Modules
             _giphyService = giphyService;
         }
 
-        [Command("rgif"), Summary("Sends a random GIF")]
+        [Command("rgiphy"), Summary("Sends a random GIF")]
         public async Task RandomGif([Remainder, Summary("Search term")] string term)
         {
             var result = await _giphyService.RandomGif(new GiphyDotNet.Model.Parameters.RandomParameter()
