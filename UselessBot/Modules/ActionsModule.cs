@@ -25,5 +25,17 @@ namespace UselessBot.Modules
         {
             await Context.Channel.SendMessageAsync("https://i.imgur.com/UeiCRgj.png");
         }
+
+        [Command("help")]
+        public async Task Help()
+        {
+            await Context.Channel.SendMessageAsync("https://i.imgur.com/y8Ea8jB.gif");
+        }
+
+        [Command("alexa")]
+        public async Task Alexa()
+        {
+            await Context.Channel.SendMessageAsync("This is so sad, alexa play despacito\n https://www.youtube.com/watch?v=kJQP7kiw5Fk");
+        }
     }
 }

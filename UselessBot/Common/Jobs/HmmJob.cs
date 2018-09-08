@@ -24,7 +24,6 @@ namespace UselessBot.Common.Jobs
 
         public async void Execute()
         {
-            Console.WriteLine("Executing Hmm Job...");
             var hmm = await redditService.GetLatestHmmContentAsync();
             var channel = discordClient.GetGuild(Convert.ToUInt64(configuration["GuildId"]))
                 .GetTextChannel(Convert.ToUInt64(configuration["Modules:Hmm:ChannelId"]));

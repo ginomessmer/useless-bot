@@ -53,6 +53,10 @@ namespace UselessBot
         private Task InitializeJobs()
         {
             JobManager.Initialize(new AppJobRegistry());
+            JobManager.JobStart += AppJobRegistry.JobStartedEventHandler;
+            JobManager.JobEnd += AppJobRegistry.JobEndedEventHandler;
+            JobManager.JobException += AppJobRegistry.JobFailedEventHandler;
+
             return Task.CompletedTask;
         }
 
