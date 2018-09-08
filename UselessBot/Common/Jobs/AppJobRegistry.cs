@@ -7,13 +7,9 @@ namespace UselessBot.Common.Jobs
 {
     public class AppJobRegistry : Registry
     {
-        private readonly IServiceProvider services;
-
-        public AppJobRegistry(IServiceProvider services)
+        public AppJobRegistry()
         {
-            this.services = services;
-
-            Schedule<HmmJob>().ToRunEvery(20).Minutes();
+            Schedule<HmmJob>().ToRunNow().AndEvery(20).Minutes();
         }
     }
 }

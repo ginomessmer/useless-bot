@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using FluentScheduler;
 using GiphyDotNet.Manager;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UselessBot.Common.Jobs;
 using UselessBot.Database;
 using UselessBot.Services;
 using Console = Colorful.Console;
@@ -24,7 +26,8 @@ namespace UselessBot
         private CommandService commands;
 
         private ServiceCollection serviceCollection;
-        private IServiceProvider services;
+        public static IServiceProvider Services;
+
         private IConfigurationRoot configuration;
 
         public async Task RunAsync()
@@ -49,6 +52,7 @@ namespace UselessBot
 
         private Task InitializeJobs()
         {
+            JobManager.Initialize(new AppJobRegistry());
             return Task.CompletedTask;
         }
 
@@ -99,7 +103,7 @@ namespace UselessBot
 
 
             // Build the service provider
-            this.services = serviceCollection.BuildServiceProvider();
+            Services = serviceCollection.BuildServiceProvider();
             Console.WriteLine("Services were initialized", Color.Green);
         }
 
@@ -121,7 +125,7 @@ namespace UselessBot
             if(!(message.HasCharPrefix(configuration["Prefix"].ToCharArray()[0], ref argPos)) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) return;
 
             var context = new CommandContext(client, message);
-            var result = await commands.ExecuteAsync(context, argPos, services);
+            var result = await commands.ExecuteAsync(context, argPos, Services);
 
             if (!result.IsSuccess)
             {
