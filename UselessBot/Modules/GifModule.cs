@@ -22,5 +22,19 @@ namespace UselessBot.Modules
             await service.AddGifAsync(url, key, Context.Message.Author);
             await Context.Channel.SendMessageAsync("Done :white_check_mark:");
         }
+
+        [Command("gif rem"), Summary("Removes a GIF by its key, what else did you expect")]
+        public async Task RemoveGif([Remainder] string key)
+        {
+            await service.RemoveGifAsync(key);
+            await Context.Channel.SendMessageAsync("Consider it gone :put_litter_in_its_place:");
+        }
+
+        [Command("gif r"), Summary("Sends a random GIF straight from the database")]
+        public async Task RandomGif()
+        {
+            var gif = await service.GetRandomGifAsync();
+            await Context.Channel.SendMessageAsync(gif.Content);
+        }
     }
 }

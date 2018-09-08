@@ -35,5 +35,16 @@ namespace UselessBot.Services
                 return gif;
             });
         }
+
+        public async Task RemoveGifAsync(string key)
+        {
+            var gif = appDbContext.Gifs.FirstOrDefault(g => g.Key == key);
+
+            if(gif != null)
+            {
+                appDbContext.Gifs.Remove(gif);
+                await appDbContext.SaveChangesAsync();
+            }
+        }
     }
 }
