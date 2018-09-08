@@ -13,5 +13,11 @@ namespace UselessBot.Modules
         {
             await Context.Channel.SendMessageAsync("https://i.imgur.com/o0E7hLg.png");
         }
+
+        [Command("#1")]
+        public async Task NumberOne()
+        {
+            await Context.Channel.SendMessageAsync("https://www.youtube.com/watch?v=PfYnvDL0Qcw");
+        }
     }
 }

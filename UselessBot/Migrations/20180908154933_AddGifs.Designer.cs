@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UselessBot.Database;
 
 namespace UselessBot.Migrations
 {
     [DbContext(typeof(BotAppDbContext))]
-    partial class BotAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180908154933_AddGifs")]
+    partial class AddGifs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
