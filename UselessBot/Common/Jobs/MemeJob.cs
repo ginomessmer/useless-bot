@@ -5,17 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UselessBot.Services;
-using Console = Colorful.Console;
 
 namespace UselessBot.Common.Jobs
 {
-    public class HmmJob : IJob
+    public class MemeJob : IJob
     {
         private readonly IRedditService redditService;
         private readonly DiscordSocketClient discordClient;
         private readonly IConfigurationRoot configuration;
 
-        public HmmJob()
+        public MemeJob()
         {
             this.redditService = App.Services.GetService(typeof(IRedditService)) as IRedditService;
             this.discordClient = App.Services.GetService(typeof(DiscordSocketClient)) as DiscordSocketClient;
@@ -24,12 +23,12 @@ namespace UselessBot.Common.Jobs
 
         public async void Execute()
         {
-            Console.WriteLine("Executing Hmm Job...");
-            var hmm = await redditService.GetLatestHmmContentAsync();
+            Console.WriteLine("Executing Memes Job...");
+            var url = await redditService.GetRandomMemeContentAsync();
             var channel = discordClient.GetGuild(Convert.ToUInt64(configuration["GuildId"]))
-                .GetTextChannel(Convert.ToUInt64(configuration["Modules:Hmm:ChannelId"]));
+                .GetTextChannel(Convert.ToUInt64(configuration["Modules:Memes:ChannelId"]));
 
-            await channel.SendMessageAsync($":thinking: {hmm}");
+            await channel.SendMessageAsync($"Meme :clap: review :clap:\n{url}");
         }
     }
 }

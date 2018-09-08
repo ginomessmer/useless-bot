@@ -1,9 +1,10 @@
 {
   "Prefix": "+",
-  "OwnerId": "",
+  "OwnerId": 1234567890,
+  "GuildId": 1234567890,
+
   "DiscordBotToken": "",
   "GiphyToken": "",
-
   "Reddit": {
     "Username": "",
     "Password": "",
@@ -13,8 +14,28 @@
   },
 
   "Modules": {
+    "Memes": {
+      "ChannelId": 1234567890,
+      "Subreddits": [
+        "dankmemes",
+        "memes",
+        "Memes_Of_The_Dank",
+        "LeagueOfMemes",
+        "DeepFriedMemes",
+        "BikiniBottomTwitter",
+        "4PanelCringe"
+      ]
+    },
+
     "Hmm": {
+      "ChannelId": 1234567890,
       "CooldownPeriod": 20
     }
+  },
+
+  "Resources": {
+    "GameStatusCollection": [
+      "bing bing bong"
+    ]
   }
 }
