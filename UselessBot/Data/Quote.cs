@@ -11,5 +11,16 @@ namespace UselessBot.Data
         {
 
         }
+
+        public string ToMessageString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("```");
+            builder.Append(this.Content);
+            builder.Append("```");
+            builder.AppendLine($"- `{Key}`");
+
+            return builder.ToString();
+        }
     }
 }

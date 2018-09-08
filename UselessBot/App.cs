@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UselessBot.Database;
+using UselessBot.Services;
 
 namespace UselessBot
 {
@@ -64,6 +65,10 @@ namespace UselessBot
             // Giphy
             Giphy giphy = new Giphy(configuration["GiphyToken"]);
             serviceCollection.AddSingleton(giphy);
+
+
+            // App services
+            serviceCollection.AddSingleton<IQuotesService, QuotesService>();
 
 
             // Build the service provider
