@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using UselessBot.Data;
 
 namespace UselessBot.Services
 {
     public interface IRedditService
     {
         Task<string> GetLatestHmmContentAsync();
-        Task<string> GetRandomMemeContentAsync();
+        Task<Meme> GetRandomMemeAsync();
     }
 }

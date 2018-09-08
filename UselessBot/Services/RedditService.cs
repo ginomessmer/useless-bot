@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UselessBot.Common.Extensions;
+using UselessBot.Data;
 
 namespace UselessBot.Services
 {
@@ -28,7 +29,7 @@ namespace UselessBot.Services
             return hmm.Url.ToString();
         }
 
-        public async Task<string> GetRandomMemeContentAsync()
+        public async Task<Meme> GetRandomMemeAsync()
         {
             var subredditCollection = configuration.GetSection("Modules").GetSection("Memes")
                 .GetSection("Subreddits").Get<List<string>>();
@@ -37,7 +38,7 @@ namespace UselessBot.Services
             var subreddit = await reddit.GetSubredditAsync($"/r/{randomSubredditName}");
             var post = (await subreddit.GetTop().ToList()).Random();
 
-            return post.Url.ToString();
+            return new Meme(post.Title, post.Url.ToString());
         }
     }
 }

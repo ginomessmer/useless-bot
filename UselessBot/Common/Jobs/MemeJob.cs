@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UselessBot.Data;
 using UselessBot.Services;
 
 namespace UselessBot.Common.Jobs
@@ -23,12 +24,11 @@ namespace UselessBot.Common.Jobs
 
         public async void Execute()
         {
-            Console.WriteLine("Executing Memes Job...");
-            var url = await redditService.GetRandomMemeContentAsync();
+            Meme meme = await redditService.GetRandomMemeAsync();
             var channel = discordClient.GetGuild(Convert.ToUInt64(configuration["GuildId"]))
                 .GetTextChannel(Convert.ToUInt64(configuration["Modules:Memes:ChannelId"]));
 
-            await channel.SendMessageAsync($"Meme :clap: review :clap:\n{url}");
+            await channel.SendMessageAsync(meme.ToString());
         }
     }
 }
