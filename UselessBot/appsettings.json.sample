@@ -5,6 +5,7 @@
 
   "DiscordBotToken": "",
   "GiphyToken": "",
+  "YouTubeApiKey": "",
   "Reddit": {
     "Username": "",
     "Password": "",

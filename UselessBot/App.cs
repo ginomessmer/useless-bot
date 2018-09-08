@@ -4,6 +4,8 @@ using Discord.WebSocket;
 using FluentScheduler;
 using GiphyDotNet.Manager;
 using GiphyDotNet.Model.Parameters;
+using Google.Apis.Services;
+using Google.Apis.YouTube.v3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RedditSharp;
@@ -53,6 +55,7 @@ namespace UselessBot
         private Task InitializeJobs()
         {
             JobManager.Initialize(new AppJobRegistry());
+
             JobManager.JobStart += AppJobRegistry.JobStartedEventHandler;
             JobManager.JobEnd += AppJobRegistry.JobEndedEventHandler;
             JobManager.JobException += AppJobRegistry.JobFailedEventHandler;
@@ -88,7 +91,7 @@ namespace UselessBot
             // Reddit
             var redditWebAgent = new BotWebAgent(configuration["Reddit:Username"], configuration["Reddit:Password"],
                 configuration["Reddit:ClientId"], configuration["Reddit:ClientSecret"], configuration["Reddit:RedirectUri"]);
-            var redditClient = new Reddit(redditWebAgent);
+            Reddit redditClient = new Reddit(redditWebAgent);
             serviceCollection.AddSingleton(redditClient);
             Console.WriteLine("Added Reddit client");
 
@@ -97,6 +100,15 @@ namespace UselessBot
             Giphy giphy = new Giphy(configuration["GiphyToken"]);
             serviceCollection.AddSingleton(giphy);
             Console.WriteLine("Added Giphy client");
+
+
+            // YouTube
+            YouTubeService youTubeService = new YouTubeService(new BaseClientService.Initializer
+            {
+                ApplicationName = "Useless Bot",
+                ApiKey = configuration["YouTubeApiKey"]
+            });
+            serviceCollection.AddSingleton(youTubeService);
 
 
             // App services

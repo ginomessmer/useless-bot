@@ -20,16 +20,14 @@ namespace UselessBot.Modules
             this.configuration = configuration;
         }
 
-        [Command("bot nick")]
-        public async Task ChangeNickname([Remainder] string nickname)
+        [Command("config reload")]
+        public async Task ChangeNickname()
         {
-            var user = await Context.Guild.GetCurrentUserAsync(CacheMode.AllowDownload);
-            await user.ModifyAsync(u =>
+            if (Context.Message.Author.Id == configuration.GetSection("OwnerId").Get<ulong>())
             {
-                u.Nickname = nickname;
-            });
-
-            await Context.Channel.SendMessageAsync("Done :white_check_mark:");
+                configuration.Reload();
+                await Context.Channel.SendMessageAsync("Configuration was reloaded :white_check_mark:");
+            }
         }
 
         [Command("die")]
