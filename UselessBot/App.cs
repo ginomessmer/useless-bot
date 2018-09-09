@@ -6,6 +6,7 @@ using GiphyDotNet.Manager;
 using GiphyDotNet.Model.Parameters;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
+using LiteDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RedditSharp;
@@ -84,6 +85,12 @@ namespace UselessBot
             Console.WriteLine("Added database context");
 
 
+            // Storage
+            var storageDb = new LiteDatabase("app.storage.db");
+            serviceCollection.AddSingleton(storageDb);
+            Console.WriteLine("Added file storage");
+
+
             // Discord
             serviceCollection.AddSingleton(discordClient);
             Console.WriteLine("Added Discord client");
@@ -113,6 +120,7 @@ namespace UselessBot
 
 
             // App services
+            serviceCollection.AddSingleton<IFileStorageService, FileStorageService>();
             serviceCollection.AddSingleton<IQuotesService, QuotesService>();
             serviceCollection.AddSingleton<IGifService, GifService>();
             serviceCollection.AddSingleton<IRedditService, RedditService>();

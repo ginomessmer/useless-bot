@@ -8,6 +8,9 @@ namespace UselessBot.Services
 {
     public interface IFileStorageService
     {
-        Task SaveFileAsync(FileStream stream, string name);
+        Task SaveFileAsync(FileStream stream, string relativeName);
+        Task<FileInfo> DownloadFileAsync(string url, string relativeName);
+        Task<FileInfo> ListAllFilesAsync(string relativePath);
+        Task RemoveFileAsync(string relativeName);
     }
 }
