@@ -12,7 +12,9 @@ namespace UselessBot.Common.Jobs
         // This registers all jobs and its schedule
         public AppJobRegistry()
         {
-            Schedule<MemeJob>().ToRunNow().AndEvery(5).Minutes();
+            Schedule<MemeJob>().ToRunNow().AndEvery(20).Minutes().Between(11, 0, 23, 59);
+            Schedule<MemeJob>().ToRunEvery(10).Minutes().Between(0, 1, 2, 0);
+
             Schedule<HmmJob>().ToRunEvery(30).Minutes().Between(3, 0, 6, 0);
             Schedule<BotStatusJob>().ToRunNow().AndEvery(2).Minutes();
         }

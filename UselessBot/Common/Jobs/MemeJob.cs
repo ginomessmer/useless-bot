@@ -24,7 +24,7 @@ namespace UselessBot.Common.Jobs
 
         public async void Execute()
         {
-            Meme meme = await redditService.GetRandomMemeAsync();
+            Meme meme = await redditService.GetRandomTopMemeAsync();
             var channel = discordClient.GetGuild(Convert.ToUInt64(configuration["GuildId"]))
                 .GetTextChannel(Convert.ToUInt64(configuration["Modules:Memes:ChannelId"]));
 

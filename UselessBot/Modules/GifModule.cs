@@ -36,5 +36,17 @@ namespace UselessBot.Modules
             var gif = await service.GetRandomGifAsync();
             await Context.Channel.SendMessageAsync(gif.Content);
         }
+
+        [Command("gif g"), Summary("Gets a GIF by its key name")]
+        [Alias("g")]
+        public async Task RandomGif([Remainder] string key)
+        {
+            var gif = await service.FindGifAsync(key);
+
+            if(gif != null)
+                await Context.Channel.SendMessageAsync(gif.Content);
+            else
+                await Context.Channel.SendMessageAsync("GIF not found");
+        }
     }
 }

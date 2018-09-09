@@ -26,10 +26,10 @@ namespace UselessBot.Modules
             await Context.Channel.SendMessageAsync("https://i.imgur.com/UeiCRgj.png");
         }
 
-        [Command("help"), Summary("Nah dude")]
+        [Command("help"), Summary("Stop it. Get some help")]
         public async Task Help()
         {
-            await Context.Channel.SendMessageAsync("https://i.imgur.com/y8Ea8jB.gif");
+            await Context.Channel.SendMessageAsync("This is so sad. Can we hit 50 likes? https://www.uselessbot.pro/");
         }
 
         [Command("alexa"), Summary("this is so sad")]

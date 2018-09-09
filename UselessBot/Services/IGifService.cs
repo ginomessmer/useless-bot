@@ -11,6 +11,7 @@ namespace UselessBot.Services
     {
         Task<Gif> AddGifAsync(string url, string key, IUser user);
         Task<Gif> GetRandomGifAsync();
+        Task<Gif> FindGifAsync(string key);
         Task RemoveGifAsync(string key);
     }
 }

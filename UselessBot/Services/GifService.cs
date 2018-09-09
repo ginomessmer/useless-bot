@@ -27,6 +27,15 @@ namespace UselessBot.Services
             return gif.Entity;
         }
 
+        public async Task<Gif> FindGifAsync(string key)
+        {
+            return await Task<Gif>.Run(() =>
+            {
+                var gif = appDbContext.Gifs.Where(g => g.Key == key).Random();
+                return gif;
+            });
+        }
+
         public async Task<Gif> GetRandomGifAsync()
         {
             return await Task<Gif>.Run(() =>

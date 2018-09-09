@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UselessBot.Common.Extensions;
 using UselessBot.Data;
+using static RedditSharp.Things.Subreddit;
 
 namespace UselessBot.Services
 {
@@ -24,12 +25,24 @@ namespace UselessBot.Services
         public async Task<string> GetLatestHmmContentAsync()
         {
             var subreddit = await reddit.GetSubredditAsync("/r/hmmm");
-            var hmm = (await subreddit.GetTop().ToList()).Random();
+            var hmm = (await subreddit.GetPosts(Sort.New).ToList()).Random();
 
             return hmm.Url.ToString();
         }
 
         public async Task<Meme> GetRandomMemeAsync()
+        {
+            var subredditCollection = configuration.GetSection("Modules").GetSection("Memes")
+                .GetSection("Subreddits").Get<List<string>>();
+
+            var randomSubredditName = subredditCollection.Random();
+            var subreddit = await reddit.GetSubredditAsync($"/r/{randomSubredditName}");
+            var post = (await subreddit.GetPosts(Sort.New).ToList()).Random();
+
+            return new Meme(post.Title, post.Url.ToString());
+        }
+
+        public async Task<Meme> GetRandomTopMemeAsync()
         {
             var subredditCollection = configuration.GetSection("Modules").GetSection("Memes")
                 .GetSection("Subreddits").Get<List<string>>();

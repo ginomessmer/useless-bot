@@ -7,5 +7,6 @@ namespace UselessBot.Services
     {
         Task<string> GetLatestHmmContentAsync();
         Task<Meme> GetRandomMemeAsync();
+        Task<Meme> GetRandomTopMemeAsync();
     }
 }
