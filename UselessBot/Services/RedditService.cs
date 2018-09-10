@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RedditSharp;
+using RedditSharp.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,19 @@ namespace UselessBot.Services
             this.configuration = configuration;
         }
 
+        public async Task<Post> GetRandomSubmissionAsync(string subredditName, Subreddit.Sort sort = Subreddit.Sort.Top)
+        {
+            subredditName = $"/r/{subredditName}";
+            var subreddit = await reddit.GetSubredditAsync(subredditName);
+            var post = (await subreddit.GetPosts(sort).ToList()).Random();
+
+            return post;
+        }
+
         public async Task<string> GetLatestHmmContentAsync()
         {
             var subreddit = await reddit.GetSubredditAsync("/r/hmmm");
-            var hmm = (await subreddit.GetPosts(Sort.New).ToList()).Random();
+            var hmm = (await subreddit.GetPosts(Subreddit.Sort.New).ToList()).Random();
 
             return hmm.Url.ToString();
         }
@@ -37,7 +47,7 @@ namespace UselessBot.Services
 
             var randomSubredditName = subredditCollection.Random();
             var subreddit = await reddit.GetSubredditAsync($"/r/{randomSubredditName}");
-            var post = (await subreddit.GetPosts(Sort.New).ToList()).Random();
+            var post = (await subreddit.GetPosts(Subreddit.Sort.New).ToList()).Random();
 
             return new Meme(post.Title, post.Url.ToString());
         }
