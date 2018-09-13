@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UselessBot", "UselessBot\UselessBot.csproj", "{4AEA7555-B7D5-4DDE-A79A-7E277C5C4577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UselessBot.HttpRuntime", "UselessBot.HttpRuntime\UselessBot.HttpRuntime.csproj", "{3E77E8BE-AD55-431B-B424-F148F1328C4F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{4AEA7555-B7D5-4DDE-A79A-7E277C5C4577}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEA7555-B7D5-4DDE-A79A-7E277C5C4577}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEA7555-B7D5-4DDE-A79A-7E277C5C4577}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E77E8BE-AD55-431B-B424-F148F1328C4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E77E8BE-AD55-431B-B424-F148F1328C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E77E8BE-AD55-431B-B424-F148F1328C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E77E8BE-AD55-431B-B424-F148F1328C4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

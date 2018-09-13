@@ -6,6 +6,8 @@ using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +24,49 @@ namespace UselessBot.Modules
             this.discordClient = discordClient;
             this.configuration = configuration;
             this.giphyService = giphyService;
+        }
+
+        [Command("status"), Summary("Displays the current status of the bot")]
+        public async Task Status()
+        {
+            EmbedBuilder builder = new EmbedBuilder()
+            {
+                Title = "Useless Bot",
+                Description = "An useless bot for all your useless daily entertainment needs.",
+                Fields = new List<EmbedFieldBuilder>()
+                {
+                    new EmbedFieldBuilder()
+                    {
+                        Name = $"Started at",
+                        Value = Process.GetCurrentProcess().StartTime.ToString()
+                    },
+                    new EmbedFieldBuilder()
+                    {
+                        Name = $"Your User ID",
+                        Value = Context.Message.Author.Id
+                    },
+                    new EmbedFieldBuilder()
+                    {
+                        Name = $"Current Server ID",
+                        Value = Context.Guild.Id,
+                        IsInline = true
+                    },
+                    new EmbedFieldBuilder()
+                    {
+                        Name = $"Channel ID",
+                        Value = Context.Channel.Id,
+                        IsInline = true
+                    }
+                },
+                Footer = new EmbedFooterBuilder()
+                {
+                    Text = $"v{Assembly.GetExecutingAssembly().GetName().Version.ToString()}"
+                },
+                Url = "https://uselessbot.pro",
+                Color = Color.Blue
+            };
+
+            await Context.Channel.SendMessageAsync("", false, builder);
         }
 
         [Command("config reload"), Summary("Reloads the application config at runtime")]
