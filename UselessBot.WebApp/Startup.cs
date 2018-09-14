@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UselessBot.Core.Services;
+using NSwag.AspNetCore;
+using UselessBot.Core.Database;
 
 namespace UselessBot.WebApp
 {
@@ -21,6 +24,19 @@ namespace UselessBot.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Database context
+            BotAppDbContext dbContext = new BotAppDbContext(Configuration["Databases:BotDatabaseConnectionString"]);
+            services.AddSingleton(dbContext);
+
+
+            // App services
+            services.AddSingleton<IQuotesService, QuotesService>();
+
+
+            // Swagger
+            services.AddSwagger();            
+
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -51,6 +67,12 @@ namespace UselessBot.WebApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.UseSwaggerUi3WithApiExplorer(configure =>
+            {
+                configure.GeneratorSettings.Title = "Useless Bot";
+                configure.SwaggerUiRoute = "/swagger";
             });
 
             app.UseSpa(spa =>

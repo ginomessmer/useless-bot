@@ -27,6 +27,14 @@ namespace UselessBot.Core.Services
             return value.Entity;
         }
 
+        public async Task<IEnumerable<Quote>> GetAllQuotesAsync()
+        {
+            return await Task.Run<IEnumerable<Quote>>(() =>
+            {
+                return _appDbContext.Quotes;
+            });
+        }
+
         public async Task<Quote> GetRandomQuoteAsync()
         {
             return await Task.Run<Quote>(() =>

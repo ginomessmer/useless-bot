@@ -13,5 +13,6 @@ namespace UselessBot.Core.Services
         Task<Quote> AddQuoteAsync(string key, string content, IUser user);
 
         Task RemoveQuoteAsync(string key);
+        Task<IEnumerable<Quote>> GetAllQuotesAsync();
     }
 }
