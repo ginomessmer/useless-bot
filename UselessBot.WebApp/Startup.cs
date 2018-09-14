@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using UselessBot.Core.Services;
 using NSwag.AspNetCore;
 using UselessBot.Core.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace UselessBot.WebApp
 {
@@ -35,7 +38,29 @@ namespace UselessBot.WebApp
 
 
             // Swagger
-            services.AddSwagger();            
+            services.AddSwagger();
+
+
+            // Auth
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "Discord";
+            })
+            .AddCookie()
+            .AddOAuth("Discord", options =>
+            {
+                options.ClientId = Configuration["Auth:Providers:Discord:ClientId"];
+                options.ClientSecret = Configuration["Auth:Providers:Discord:ClientSecret"];
+
+                options.AuthorizationEndpoint = "https://discordapp.com/api/oauth2/authorize";
+                options.TokenEndpoint = "https://discordapp.com/api/oauth2/token";
+                options.UserInformationEndpoint = "https://discordapp.com/api/users/@me";
+
+                options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");
+            });
 
 
             // In production, the Angular files will be served from this directory
@@ -68,6 +93,8 @@ namespace UselessBot.WebApp
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseAuthentication();
 
             app.UseSwaggerUi3WithApiExplorer(configure =>
             {
