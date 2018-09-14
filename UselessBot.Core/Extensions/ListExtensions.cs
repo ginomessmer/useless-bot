@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UselessBot.Common.Extensions
+namespace UselessBot.Core.Extensions
 {
     public static class ListExtensions
     {

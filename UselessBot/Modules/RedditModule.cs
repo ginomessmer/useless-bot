@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using UselessBot.Common.Extensions;
-using UselessBot.Services;
+using UselessBot.Core.Extensions;
+using UselessBot.Core.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace UselessBot.Modules

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UselessBot.Data
+namespace UselessBot.Core.Data
 {
     public class Quote : UserGeneratedContent
     {

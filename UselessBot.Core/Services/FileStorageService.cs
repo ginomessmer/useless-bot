@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UselessBot.Services
+namespace UselessBot.Core.Services
 {
     public class FileStorageService : IFileStorageService
     {

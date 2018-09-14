@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using UselessBot.Common.Extensions;
-using UselessBot.Data;
-using UselessBot.Database;
+using UselessBot.Core.Extensions;
+using UselessBot.Core.Data;
+using UselessBot.Core.Database;
 
-namespace UselessBot.Services
+namespace UselessBot.Core.Services
 {
     public class GifService : IGifService
     {

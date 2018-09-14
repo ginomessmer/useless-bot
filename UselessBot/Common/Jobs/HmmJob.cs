@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UselessBot.Services;
+using UselessBot.Core.Services;
 using Console = Colorful.Console;
 
 namespace UselessBot.Common.Jobs

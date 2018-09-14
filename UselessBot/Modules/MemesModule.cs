@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using UselessBot.Data;
-using UselessBot.Services;
+using UselessBot.Core.Data;
+using UselessBot.Core.Services;
 
 namespace UselessBot.Modules
 {

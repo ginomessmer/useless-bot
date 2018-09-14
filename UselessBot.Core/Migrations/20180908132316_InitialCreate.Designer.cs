@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UselessBot.Database;
+using UselessBot.Core.Database;
 
-namespace UselessBot.Migrations
+namespace UselessBot.Core.Migrations
 {
     [DbContext(typeof(BotAppDbContext))]
     [Migration("20180908132316_InitialCreate")]
@@ -18,7 +18,7 @@ namespace UselessBot.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.2-rtm-30932");
 
-            modelBuilder.Entity("UselessBot.Data.Quote", b =>
+            modelBuilder.Entity("UselessBot.Core.Data.Quote", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();

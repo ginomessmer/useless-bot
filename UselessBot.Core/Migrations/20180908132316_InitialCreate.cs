@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace UselessBot.Migrations
+namespace UselessBot.Core.Migrations
 {
     public partial class InitialCreate : Migration
     {

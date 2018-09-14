@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UselessBot.Data;
+using UselessBot.Core.Data;
 
-namespace UselessBot.Database
+namespace UselessBot.Core.Database
 {
     public class BotAppDbContext : DbContext
     {

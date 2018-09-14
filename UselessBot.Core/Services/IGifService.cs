@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using UselessBot.Data;
+using UselessBot.Core.Data;
 
-namespace UselessBot.Services
+namespace UselessBot.Core.Services
 {
     public interface IGifService
     {

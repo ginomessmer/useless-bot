@@ -4,8 +4,8 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UselessBot.Data;
-using UselessBot.Services;
+using UselessBot.Core.Data;
+using UselessBot.Core.Services;
 
 namespace UselessBot.Common.Jobs
 {

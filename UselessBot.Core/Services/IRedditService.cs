@@ -1,8 +1,8 @@
 ﻿using RedditSharp.Things;
 using System.Threading.Tasks;
-using UselessBot.Data;
+using UselessBot.Core.Data;
 
-namespace UselessBot.Services
+namespace UselessBot.Core.Services
 {
     public interface IRedditService
     {

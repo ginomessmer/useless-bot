@@ -3,9 +3,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using FluentScheduler;
 using GiphyDotNet.Manager;
-using GiphyDotNet.Model.Parameters;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3;
 using LiteDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +14,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UselessBot.Common.Jobs;
-using UselessBot.Database;
-using UselessBot.Services;
+using UselessBot.Core.Database;
+using UselessBot.Core.Services;
 using Console = Colorful.Console;
 
 namespace UselessBot
@@ -111,12 +108,12 @@ namespace UselessBot
 
 
             // YouTube
-            YouTubeService youTubeService = new YouTubeService(new BaseClientService.Initializer
-            {
-                ApplicationName = "Useless Bot",
-                ApiKey = configuration["YouTubeApiKey"]
-            });
-            serviceCollection.AddSingleton(youTubeService);
+            //YouTubeService youTubeService = new YouTubeService(new BaseClientService.Initializer
+            //{
+            //    ApplicationName = "Useless Bot",
+            //    ApiKey = configuration["YouTubeApiKey"]
+            //});
+            //serviceCollection.AddSingleton(youTubeService);
 
 
             // App services

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using UselessBot.Data;
-using UselessBot.Database;
-using UselessBot.Services;
+using UselessBot.Core.Data;
+using UselessBot.Core.Database;
+using UselessBot.Core.Services;
 
 namespace UselessBot.Modules
 {

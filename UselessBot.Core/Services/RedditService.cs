@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UselessBot.Common.Extensions;
-using UselessBot.Data;
+using UselessBot.Core.Extensions;
+using UselessBot.Core.Data;
 using static RedditSharp.Things.Subreddit;
 
-namespace UselessBot.Services
+namespace UselessBot.Core.Services
 {
     public class RedditService : IRedditService
     {
