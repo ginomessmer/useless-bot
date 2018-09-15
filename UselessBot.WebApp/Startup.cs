@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.HttpOverrides;
+using UselessBot.WebApp.Common.Auth.Policies;
 
 namespace UselessBot.WebApp
 {
@@ -79,6 +81,11 @@ namespace UselessBot.WebApp
                 };
             });
 
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("Owner", policy => policy.Requirements.Add(new OwnerRequirement()));
+            });
+
             // Database context
             BotAppDbContext dbContext = new BotAppDbContext(Configuration["Databases:BotDatabaseConnectionString"]);
             services.AddSingleton(dbContext);
@@ -115,6 +122,11 @@ namespace UselessBot.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             app.UseAuthentication();
 
             app.UseSpaStaticFiles();
@@ -132,20 +144,17 @@ namespace UselessBot.WebApp
                 configure.SwaggerUiRoute = "/swagger";
             });
 
-            app.Map(new PathString("/admin"), config =>
+            app.UseSpa(spa =>
             {
-                config.UseSpa(spa =>
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
                 {
-                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                    // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                    spa.Options.SourcePath = "ClientApp";
-
-                    if (env.IsDevelopment())
-                    {
-                        spa.UseAngularCliServer(npmScript: "start");
-                    }
-                });
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }
