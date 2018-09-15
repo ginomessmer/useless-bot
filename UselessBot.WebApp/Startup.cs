@@ -11,6 +11,12 @@ using UselessBot.Core.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace UselessBot.WebApp
 {
@@ -28,19 +34,6 @@ namespace UselessBot.WebApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Database context
-            BotAppDbContext dbContext = new BotAppDbContext(Configuration["Databases:BotDatabaseConnectionString"]);
-            services.AddSingleton(dbContext);
-
-
-            // App services
-            services.AddSingleton<IQuotesService, QuotesService>();
-
-
-            // Swagger
-            services.AddSwagger();
-
-
             // Auth
             services.AddAuthentication(options =>
             {
@@ -53,14 +46,50 @@ namespace UselessBot.WebApp
             {
                 options.ClientId = Configuration["Auth:Providers:Discord:ClientId"];
                 options.ClientSecret = Configuration["Auth:Providers:Discord:ClientSecret"];
+                options.CallbackPath = new Microsoft.AspNetCore.Http.PathString("/auth/discord/callback");
 
-                options.AuthorizationEndpoint = "https://discordapp.com/api/oauth2/authorize";
+                options.Scope.Add("identify");
+                options.Scope.Add("email");
+
+                options.SaveTokens = true;
+
+                options.AuthorizationEndpoint = "https://discordapp.com/oauth2/authorize";
                 options.TokenEndpoint = "https://discordapp.com/api/oauth2/token";
                 options.UserInformationEndpoint = "https://discordapp.com/api/users/@me";
 
                 options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
                 options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");
+                options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+
+                options.Events = new OAuthEvents()
+                {
+                    OnCreatingTicket = async context =>
+                    {
+                        var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
+                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+                        var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                        response.EnsureSuccessStatusCode();
+
+                        var user = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                        context.RunClaimActions(user);
+                    }
+                };
             });
+
+            // Database context
+            BotAppDbContext dbContext = new BotAppDbContext(Configuration["Databases:BotDatabaseConnectionString"]);
+            services.AddSingleton(dbContext);
+
+
+            // App services
+            services.AddSingleton<IQuotesService, QuotesService>();
+
+
+            // Swagger
+            services.AddSwagger();
 
 
             // In production, the Angular files will be served from this directory
@@ -85,6 +114,9 @@ namespace UselessBot.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
+
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
@@ -94,25 +126,26 @@ namespace UselessBot.WebApp
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseAuthentication();
-
             app.UseSwaggerUi3WithApiExplorer(configure =>
             {
                 configure.GeneratorSettings.Title = "Useless Bot";
                 configure.SwaggerUiRoute = "/swagger";
             });
 
-            app.UseSpa(spa =>
+            app.Map(new PathString("/admin"), config =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
+                config.UseSpa(spa =>
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
+                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                    // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseAngularCliServer(npmScript: "start");
+                    }
+                });
             });
         }
     }
