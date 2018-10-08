@@ -48,6 +48,7 @@ namespace UselessBot.Core.Services
             var quote = _appDbContext.Quotes.FirstOrDefault(q => q.Key == key);
             if(quote != null)
             {
+                
                 _appDbContext.Remove(quote);
                 await _appDbContext.SaveChangesAsync();
             }

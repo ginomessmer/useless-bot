@@ -52,6 +52,15 @@ namespace UselessBot.Modules
 
         }
 
+        [Command("sad"), Summary("This is so sad")]
+        public async Task GetRandomSadCatSubmission()
+        {
+            var message = await Context.Channel.SendMessageAsync(":sob:");
+            var post = await redditService.GetRandomSubmissionAsync("sadcats");
+            await message.ModifyAsync(m => m.Content = post.Url.ToString());
+
+        }
+
         [Command("doggo"), Summary("Bork")]
         public async Task GetRandomDoggoSubmission()
         {

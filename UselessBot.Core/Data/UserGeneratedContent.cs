@@ -26,6 +26,8 @@ namespace UselessBot.Core.Data
             this.UserId = userId;
             this.UserName = userName;
             this.Tag = tag;
+
+            UserGeneratedContent ugc = new UserGeneratedContent("s", "s", 123, "test");
         }
     }
 }

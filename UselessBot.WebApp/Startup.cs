@@ -44,14 +44,19 @@ namespace UselessBot.WebApp
                 options.DefaultChallengeScheme = "Discord";
             })
             .AddCookie()
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+            })
             .AddOAuth("Discord", options =>
             {
                 options.ClientId = Configuration["Auth:Providers:Discord:ClientId"];
                 options.ClientSecret = Configuration["Auth:Providers:Discord:ClientSecret"];
-                options.CallbackPath = new Microsoft.AspNetCore.Http.PathString("/auth/discord/callback");
+                options.CallbackPath = new PathString("/auth/discord/callback");
 
                 options.Scope.Add("identify");
                 options.Scope.Add("email");
+                options.Scope.Add("guilds");
 
                 options.SaveTokens = true;
 
