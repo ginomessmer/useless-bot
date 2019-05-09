@@ -14,6 +14,8 @@ namespace UselessBot.Core.Database
         public BotAppDbContext(string connectionString = "Data Source=app.db")
         {
             this.connectionString = connectionString;
+            this.Database.EnsureCreated();
+            this.Database.Migrate();
         }
 
         public DbSet<Quote> Quotes { get; set; }
